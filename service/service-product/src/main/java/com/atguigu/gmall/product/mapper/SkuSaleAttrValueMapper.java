@@ -1,7 +1,10 @@
 package com.atguigu.gmall.product.mapper;
 
 import com.atguigu.gmall.model.product.SkuSaleAttrValue;
+import com.atguigu.gmall.model.vo.ValueSkuVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
 * @author lfy
@@ -11,6 +14,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface SkuSaleAttrValueMapper extends BaseMapper<SkuSaleAttrValue> {
 
+    List<ValueSkuVo> getSpudeAllSkuSaleAttrAndValue(Long spuId);
 }
 
 

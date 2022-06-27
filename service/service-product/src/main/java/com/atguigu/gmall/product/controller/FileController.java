@@ -61,30 +61,6 @@ public class FileController {
         //1、文件上传到minio，并拿到文件访问地址
         String url = fileService.upload(file);
 
-//        //username,pwd,file
-//        /**
-//         *        用户名： <input type="text" name="username"/> <br/>
-//         *        密码：   <input type="password" name="pwd"/> <br/>
-//         * @RequestParam("")  getParameter
-//         */
-//        Enumeration<String> names = request.getParameterNames();
-//
-//        while (names.hasMoreElements()) {
-//            String element = names.nextElement();
-//            System.out.println(element);
-//
-//        }
-//
-//        /**
-//         * @RequestPart
-//         */
-//        Collection<Part> parts = request.getParts();
-//        for (Part part : parts) {
-//            System.out.println("part:"+part.getName());
-//        }
-//
-//        System.out.println(names);
-//        String url = "";
         return Result.ok(url);
     }
 }
