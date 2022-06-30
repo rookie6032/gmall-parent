@@ -84,6 +84,12 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
         //TODO 连接ES删除这个商品数据
         skuInfoMapper.updateSaleStatus(skuId,0);
     }
+
+    @Override
+    public List<Long> getSkuIds() {
+        //改造为分批分页查询。
+        return skuInfoMapper.getSkuIds();
+    }
 }
 
 
