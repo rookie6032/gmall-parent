@@ -1,11 +1,13 @@
 package com.atguigu.gmall.item;
 
 
+import com.atguigu.gmall.common.annotation.EnableThreadPool;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 
+@EnableThreadPool
 //调谁扫谁。
 //每一个微服务不用扫自己的controller暴露的feignclient，微服务暴露的feignclient给别人用的，不是给自己用的。
 @EnableFeignClients(basePackages = {"com.atguigu.gmall.feign.product"}) //调谁导谁

@@ -35,7 +35,7 @@ public class FileServiceImpl implements FileService {
 
 
         //2、返回这个资源的访问路径  minio服务器地址+
-        //http://192.168.200.100:9000/gmall/123.jpg
+        //http://192.168.206.110:9000/gmall/123.jpg
         String url =  minioProperties.getEndpoint()+"/"+minioProperties.getBucketName()+"/"+filename;
         return url;
     }

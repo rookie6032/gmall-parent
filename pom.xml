@@ -9,6 +9,8 @@
         <module>model</module>
         <module>server-gateway</module>
         <module>mall-cache-starter</module>
+        <module>ware-manage</module>
+
     </modules>
 
     <!--    springboot作为整个父项目哈哈呵呵 -->
@@ -91,7 +93,12 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
+    </dependencies>
 
 
 </project>

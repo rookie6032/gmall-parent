@@ -1,6 +1,6 @@
 var trade = {
 
-    api_name : '/api/order',
+    api_name : '/api/com.atguigu.gmall.order',
 
   // 添加购物车
   trade() {

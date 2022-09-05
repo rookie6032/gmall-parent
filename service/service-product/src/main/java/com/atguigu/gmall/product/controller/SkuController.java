@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class SkuController {
 
     @Autowired
-    private SkuInfoService skuInfoService;
+    SkuInfoService skuInfoService;
 
     @PostMapping("/saveSkuInfo")
     public Result saveSkuInfo(@RequestBody SkuInfo skuInfo){

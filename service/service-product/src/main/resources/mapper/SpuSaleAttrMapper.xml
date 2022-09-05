@@ -42,6 +42,6 @@
                  left join sku_sale_attr_value skuav
                            on ssav.id = skuav.sale_attr_value_id and skuav.sku_id = #{skuId}
         where ssav.spu_id = #{spuId}
-        order by ssav.base_sale_attr_id, ssav.id
+        com.atguigu.gmall.order by ssav.base_sale_attr_id, ssav.id
     </select>
 </mapper>

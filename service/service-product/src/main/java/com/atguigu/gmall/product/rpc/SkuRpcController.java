@@ -1,6 +1,7 @@
 package com.atguigu.gmall.product.rpc;
 
 import com.atguigu.gmall.common.result.Result;
+import com.atguigu.gmall.model.cart.CartInfo;
 import com.atguigu.gmall.model.dto.CategoryViewDo;
 import com.atguigu.gmall.model.product.SkuInfo;
 import com.atguigu.gmall.model.product.SpuSaleAttr;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -87,5 +89,28 @@ public class SkuRpcController {
 
         String json = spudeSkuSaleAttrBizService.getSpudeAllSkuSaleAttrAndValue(spuId);
         return Result.ok(json);
+    }
+
+
+    @GetMapping("/sku/price/{skuId}")
+    public Result<BigDecimal> getSkuPrice(@PathVariable("skuId") Long skuId){
+
+//        skuInfoService.getById(skuId); //
+        BigDecimal price = skuInfoService.getSkuPrice(skuId);
+        return Result.ok();
+    }
+
+    @GetMapping("/cartinfo/{skuId}")
+    public Result<CartInfo> getCartInfoBySkuId(@PathVariable("skuId") Long skuId){
+        CartInfo cartInfo =skuInfoService.getCartInfoBySkuId(skuId);
+        return Result.ok(cartInfo);
+    }
+
+    @GetMapping("/sku/price/shishi/{skuId}")
+    public Result<BigDecimal> get1010SkuPrice(@PathVariable("skuId") Long skuId){
+
+//        skuInfoService.getById(skuId); //
+        BigDecimal price = skuInfoService.get1010SkuPrice(skuId);
+        return Result.ok(price);
     }
 }

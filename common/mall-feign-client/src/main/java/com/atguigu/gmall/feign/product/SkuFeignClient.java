@@ -1,6 +1,7 @@
 package com.atguigu.gmall.feign.product;
 
 import com.atguigu.gmall.common.result.Result;
+import com.atguigu.gmall.model.cart.CartInfo;
 import com.atguigu.gmall.model.product.SkuInfo;
 import com.atguigu.gmall.model.product.SpuSaleAttr;
 import com.atguigu.gmall.model.vo.CategoryView;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RequestMapping("/rpc/inner/product")
@@ -40,4 +42,17 @@ public interface SkuFeignClient {
     @GetMapping("/spu/skus/saleattrvalue/json/{spuId}")
     Result<String> getSpudeAllSkuSaleAttrAndValue(@PathVariable("spuId") Long spuId);
 
+    @GetMapping("/sku/price/{skuId}")
+    public Result<BigDecimal> getSkuPrice(@PathVariable("skuId") Long skuId);
+
+    @GetMapping("/cartinfo/{skuId}")
+    Result<CartInfo> getCartInfoBySkuId(@PathVariable("skuId") Long skuId);
+
+    /**
+     * 实时获取价格：从数据
+     * @param skuId
+     * @return
+     */
+    @GetMapping("/sku/price/shishi/{skuId}")
+    public Result<BigDecimal> get1010SkuPrice(@PathVariable("skuId") Long skuId);
 }

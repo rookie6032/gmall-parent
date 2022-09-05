@@ -1,6 +1,6 @@
 var orderInfo = {
 
-    api_name: '/api/order',
+    api_name: '/api/com.atguigu.gmall.order',
 
     getOrderDetail(orderDetailId) {
         return request({

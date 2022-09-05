@@ -30,7 +30,7 @@ public class MinioTest {
         try {
             //1、使用MinIO服务的URL，端口，Access key和Secret key创建一个MinioClient对象
             MinioClient minioClient = new MinioClient(
-                    "http://192.168.200.100:9000",
+                    "http://192.168.206.110:9000",
                     "admin",
                     "admin123456");
             System.out.println(minioClient);
@@ -50,8 +50,8 @@ public class MinioTest {
             options.setContentType("image/jpeg");
             minioClient.putObject("gmall","123.jpg",stream,options);
 
-            //http://192.168.200.100:9000/gmall/1.jpg
-            System.out.println("上传成功：访问地址：http://192.168.200.100:9000/gmall/123.jpg");
+            //http://192.168.206.110:9000/gmall/1.jpg
+            System.out.println("上传成功：访问地址：http://192.168.206.110:9000/gmall/123.jpg");
         } catch (Exception e) {
             System.out.println("Error occurred: " + e);
         }

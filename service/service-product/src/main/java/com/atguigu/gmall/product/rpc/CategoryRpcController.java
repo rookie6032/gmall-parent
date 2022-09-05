@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RequestMapping("/rpc/inner/product")
 @RestController
@@ -16,7 +18,7 @@ public class CategoryRpcController {
     @Autowired
     CategoryBizService categoryBizService;
 
-
+    Map<String,List<CategoryVo>> categoryCache = new ConcurrentHashMap<>();
 
     @GetMapping("/categorys/all")
     public Result<List<CategoryVo>> getCategorys(){

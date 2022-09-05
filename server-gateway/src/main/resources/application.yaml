@@ -14,10 +14,25 @@ spring:
             allowCredentials: true #允许Cookie等一些安全标识头跨域
 
       routes:
+        - id: incr_test
+          uri: lb://service-product
+          predicates:
+            - Path=/incr
+
         - id: product_route
           uri: lb://service-product
           predicates:
             - Path=/admin/product/**
+
+        - id: user_route
+          uri: lb://service-user
+          predicates:
+            - Path=/api/user/**
+
+        - id: order_route
+          uri: lb://service-order
+          predicates:
+            - Path=/api/order/**
 
         - id: front_route    #所有 域名的请求都来到 web-front 前端
           uri: lb://web-front
@@ -25,3 +40,15 @@ spring:
             - Host=**.gmall.com
 
 
+
+app:
+  auth:
+    login-page: http://passport.gmall.com/login.html
+    login-url:
+      - /com.atguigu.gmall.order/**
+      - /incr
+      - /trade.html
+      - /**/auth/**
+      - /api/payment/**
+    no-auth-url:
+      - /rpc/inner/**   #内部的rpc请求浏览器不能直接访问

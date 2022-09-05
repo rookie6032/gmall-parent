@@ -1,6 +1,6 @@
 var orderRefundInfo = {
 
-    api_name: '/api/order/orderRefundInfo',
+    api_name: '/api/com.atguigu.gmall.order/orderRefundInfo',
 
     getPageList(page, limit) {
         return request({

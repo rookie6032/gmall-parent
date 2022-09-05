@@ -3,6 +3,9 @@ server:
 
 
 spring:
+  profiles:
+    include: sharding
+
   datasource:
     url: jdbc:mysql://192.168.206.110:3306/gmall_product?useSSL=false&characterEncoding=utf-8
     username: root
@@ -12,11 +15,6 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
-
-  redis:
-    host: 192.168.206.110
-    port: 6379
-    password: "gxf123123@"
 
 app:
   minio:

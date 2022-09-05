@@ -10,6 +10,7 @@ import com.atguigu.gmall.model.product.SkuInfo;
 import com.atguigu.gmall.model.product.SpuSaleAttr;
 import com.atguigu.gmall.model.vo.CategoryView;
 import com.atguigu.gmall.model.vo.SkuDetailVo;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBloomFilter;
 import org.redisson.api.RLock;
@@ -19,6 +20,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 
@@ -159,36 +161,58 @@ public class ItemServiceImpl implements ItemService {
         return data;
     }
 
-
+    //回源查数据的方法
+    @SneakyThrows
     public SkuDetailVo getItemDetailFromRpc(Long skuId) {
         SkuDetailVo vo = new SkuDetailVo();
+
         //2、sku的info
-        Result<SkuInfo> skuInfo = skuFeignClient.getSkuInfo(skuId);
-        SkuInfo info = skuInfo.getData();
-        vo.setSkuInfo(info);
+        CompletableFuture<SkuInfo> baseInfoFuture = CompletableFuture.supplyAsync(() -> {
+            Result<SkuInfo> skuInfo = skuFeignClient.getSkuInfo(skuId);
+            SkuInfo info = skuInfo.getData();
+            vo.setSkuInfo(info);
+            return info;
+        });
+
+
 
 
         //1、sku所在的分类。
-        Long category3Id = info.getCategory3Id();
-        //按照三级分类id查出所在的完整分类信息
-        Result<CategoryView> categoryView = skuFeignClient.getCategoryView(category3Id);
-        vo.setCategoryView(categoryView.getData());
+        CompletableFuture<Void> categoryFuture=baseInfoFuture.thenAcceptAsync(info -> {
+            Long category3Id = info.getCategory3Id();
+            //按照三级分类id查出所在的完整分类信息
+            Result<CategoryView> categoryView = skuFeignClient.getCategoryView(category3Id);
+            vo.setCategoryView(categoryView.getData());
+        });
+
+
 
 
         //3、sku的价格
-        vo.setPrice(info.getPrice());
+        CompletableFuture<Void> priceFuture=baseInfoFuture.thenAcceptAsync(info -> {
+            vo.setPrice(info.getPrice());
+        });
+
 
         //4、sku的销售属性列表
-        Long spuId = info.getSpuId();
-        Result<List<SpuSaleAttr>> saleAttr = skuFeignClient.getSaleAttr(skuId, spuId);
-        if (saleAttr.isOk()) {
-            vo.setSpuSaleAttrList(saleAttr.getData());
-        }
+        CompletableFuture<Void> saleAttrFuture=baseInfoFuture.thenAcceptAsync(info -> {
+            Long spuId = info.getSpuId();
+            Result<List<SpuSaleAttr>> saleAttr = skuFeignClient.getSaleAttr(skuId, spuId);
+            if (saleAttr.isOk()) {
+                vo.setSpuSaleAttrList(saleAttr.getData());
+            }
+        });
+
 
 
         //5、得到一个sku对应的spu的所有sku的组合关系
-        Result<String> value = skuFeignClient.getSpudeAllSkuSaleAttrAndValue(spuId);
-        vo.setValuesSkuJson(value.getData());
+        CompletableFuture<Void> skuOtherFuture=baseInfoFuture.thenAcceptAsync(info -> {
+            Result<String> value = skuFeignClient.getSpudeAllSkuSaleAttrAndValue(info.getSpuId());
+            vo.setValuesSkuJson(value.getData());
+        });
+        //6、编排 - 等所有任务运行完成
+        CompletableFuture.allOf(categoryFuture,priceFuture,saleAttrFuture,skuOtherFuture)
+                .get(); //阻塞等待所有人完成
 
         return vo;
     }

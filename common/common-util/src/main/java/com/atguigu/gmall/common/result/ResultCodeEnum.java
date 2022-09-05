@@ -18,6 +18,7 @@ public enum ResultCodeEnum {
     PAY_RUN(205, "支付中"),
 
     LOGIN_AUTH(208, "未登陆"),
+    LOGIN_FAIL(2081, "登陆失败，请填写正确的账号密码"),
     PERMISSION(209, "没有权限"),
     SECKILL_NO_START(210, "秒杀还没开始"),
     SECKILL_RUN(211, "正在排队中"),
@@ -30,6 +31,12 @@ public enum ResultCodeEnum {
     SECKILL_ORDER_SUCCESS(218, "下单成功"),
     COUPON_GET(220, "优惠券已经领取"),
     COUPON_LIMIT_GET(221, "优惠券已发放完毕"),
+    NOAUTH_URL(2082,"非法请求，我们已经记录了你的行为"),
+    OUT_OF_CART(3000,"购物车数量已满，请先移除一些商品"),
+
+    ORDER_INVAILD_TOKEN(4000,"页面已经过期，请重新刷新确认"),
+    ORDER_ITEM_NO_STOCK(4001,"库存不足："),
+    ORDER_ITEM_PRICE_CHANGE(4002,"商品价格发生变化，请重新刷新页面。变化商品如下：")
     ;
 
     private Integer code;
